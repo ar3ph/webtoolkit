@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as DjangoLoginView
-from django.http import HttpRequest, Http404
+from django.http import Http404, HttpRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
@@ -72,8 +72,12 @@ class RegisterView(View):
         username = request.POST.get("username")
         password = request.POST.get("password")
         if not username or not password:
-            return render(request, "core/register.html", get_common_context() | {"errors": ["invalid username or password."]})
-            
+            return render(
+                request,
+                "core/register.html",
+                get_common_context() | {"errors": ["invalid username or password."]},
+            )
+
         if User.objects.filter(username=username).exists():
             return render(request, "core/register.html", get_common_context())
         user = User.objects.create_user(username, password=password)
