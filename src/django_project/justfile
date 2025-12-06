@@ -1,5 +1,7 @@
-deps:
+node-deps:
 	npm i
+
+deps: node-deps
 	uv sync
 dev:
 	DEBUG=true uv run manage.py runserver
@@ -7,7 +9,7 @@ dev:
 # Runs production server.
 prod: static
 	uv run gunicorn django_project.wsgi:application --workers `nproc` --worker-class gevent
-format:
+format: node-deps
 	uv run ruff check --select I --fix; uv run ruff format
 	npx prettier --write **/*.html
 

@@ -111,7 +111,7 @@
         {% if page.has_previous %}
           <a
             class="join-item btn btn-outline"
-            href="{% url 'core:file_hosting' %}?page={{ page.previous_page_number }}"
+            href="{% url "core:file_hosting" %}?page={{ page.previous_page_number }}"
             >Previous</a
           >
         {% endif %}
