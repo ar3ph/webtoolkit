@@ -47,7 +47,7 @@ def get_all_request_counts() -> dict[str, int]:
 def most_viewed_instances_no_post_save_signal(
     qs: Iterator[ReversableModelMixin],
     limit: int = 10,
-) -> Sequence[dict[str, ReversableModelMixin | int]]:
+) -> Sequence[Instance]:
     request_counts = get_all_request_counts()
     model_counts = []
     for instance in qs:
@@ -84,7 +84,8 @@ def resolve_url_path_to_db_instance(
 
 
 def most_viewed_instances(
-    qs: QuerySet[StatisticsModelMixin], limit: int = 10
+    qs: QuerySet[StatisticsModelMixin],
+    limit: int = 10,
 ) -> Iterator[Instance]:
     instances = qs.annotate(request_count=Count("requests")).order_by("-request_count")[
         :limit
